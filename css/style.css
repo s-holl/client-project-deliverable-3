@@ -1,0 +1,40 @@
+/* default styling: MOBILE */
+
+/* underline when link is on focus */
+a:focus {
+    text-decoration:underline;
+}
+
+/* hide Skip To Main Content by default */
+/* a:not(li a):not(footer a):not(header a):first-of-type {
+    position: absolute;
+    top: -100vh;
+    color:blue;
+
+} */
+
+
+/* a:not(li a):not(footer a):not(header a):first-of-type {
+    position: relative;
+    top: 0vh;
+} */
+
+/* show Skip To Main Content when tabbed onto
+a:first-of-type:not(li a):not(footer a) {
+    position: absolute;
+    top: 100vh;
+} */
+
+/* scroll-friendly table */
+table {
+    overflow-x: auto;
+}
+
+/* alternating row colors */
+tr:nth-child(even) {
+    background-color: rgb(245, 245, 220);
+}
+tr:nth-child(odd) {
+    background-color: rgb(197, 221, 197);
+}
+
