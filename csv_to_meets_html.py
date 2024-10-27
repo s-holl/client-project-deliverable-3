@@ -31,6 +31,7 @@ def csv_to_html(csv_filename, output_folder):
 <title>{link_text}</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
    <body>
    <a href = "#main" tabindex="0" class="skip">Skip to Main Content</a>
@@ -83,7 +84,13 @@ def csv_to_html(csv_filename, output_folder):
                     html_content += "</table>\n"
                     html_content += """</section>\n
                     <section id="individual-results">\n
-                    <h2>Individual Results</h2>"""
+                    <h2>Individual Results</h2>\n
+                    <select id="sort-options" aria-label="Sort Athletes" role="" >\n
+                        <option value="name-asc" selected>Sort by Name (Ascending)</option>\n
+                        <option value="name-desc">Sort by Name (Descending)</option>\n
+                        <option value="place-asc">Sort by Place (Ascending)</option>\n
+                        <option value="place-desc">Sort by Place (Descending)</option>\n
+                    </select>"""
 
                 place = row[0]
                 grade = row[1]
@@ -94,15 +101,13 @@ def csv_to_html(csv_filename, output_folder):
                 # Add the athlete div
                 html_content += f"""
 <div class="athlete">
-<figure> 
-    <img src="../images/profiles/{profile_pic}" width="200" alt="Profile picture of {name}"> 
-    <figcaption>{name}</figcaption>
-</figure>
-<dl>
-    <dt>Place</dt><dd>{place}</dd>
-    <dt>Time</dt><dd>{time}</dd>
-    <dt>Grade</dt><dd>{grade}</dd>
-</dl>
+    <h3><i aria-label="Collapsed" role="status" class="fas fa-plus-square"></i>{name}</h3>
+    <dl>
+        <dt>Place</dt><dd>{place}</dd>
+        <dt>Time</dt><dd>{time}</dd>
+        <dt>Grade</dt><dd>{grade}</dd>
+    </dl>
+        <img src="../images/profiles/{profile_pic}" width="200" alt="Profile picture of {name}">
 </div>
 """
 
@@ -111,7 +116,7 @@ def csv_to_html(csv_filename, output_folder):
         <h2>Gallery</h2>
         """
 
-        html_content += create_meet_image_gallery(url)
+        html_content += create_meet_image_gallery(link_url)
         # Close the HTML document
         html_content += """
    </section>
@@ -119,15 +124,19 @@ def csv_to_html(csv_filename, output_folder):
    <footer>
                      <p>
                      Skyline High School<br>
+                     </p>
                      <address>
                      2552 North Maple Road<br>
                      Ann Arbor, MI 48103<br><br>
                     </address>
                      <a href = "https://sites.google.com/aaps.k12.mi.us/skylinecrosscountry2021/home">XC Skyline Page</a><br>
-                    Follow us on Instagram <a href = "https://www.instagram.com/a2skylinexc/" aria-label="Instagram"><i class="fa-brands fa-instagram"></i>  </a> 
+                    <a href = "https://www.instagram.com/a2skylinexc/" aria-label="Instagram">Follow us on Instagram<i class="fa-brands fa-instagram"></i>  </a> 
 
 
                      </footer>
+                     <script src="../js/sort_athletes.js"></script>
+                     <script src="../js/collapsible-header.js"></script>
+                     <script src="../js/link-athlete-names.js"></script>
         </body>
 </html>
 """
@@ -179,7 +188,7 @@ def extract_meet_id(url):
         raise ValueError("Meet ID not found in URL.")
 
 # Step 2: Select 12 random photos from the folder
-def select_random_photos(folder_path, num_photos=25):
+def select_random_photos(folder_path, num_photos=12):
     # List all files in the folder
     print(f"Checking {folder_path}")
     all_files = os.listdir(folder_path)
@@ -207,7 +216,7 @@ def generate_image_tags(image_files, folder_path):
 def create_meet_image_gallery(url):
     meet_id = extract_meet_id(url)
     # Define the folder path for images based on the meet ID
-    folder_path = f'images/meets/{meet_id}/'
+    folder_path = f'images/meets/{meet_id}/' 
 
     # print(f"The folder path is {folder_path}")
     
